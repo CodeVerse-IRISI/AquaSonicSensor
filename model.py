@@ -1,9 +1,5 @@
 
 
-
-#!/usr/bin/env python
-# coding: utf-8
-
 #pip install tensorflow
 
 import numpy as np
