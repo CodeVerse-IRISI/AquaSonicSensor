@@ -1,5 +1,3 @@
-!pip install tensorflow
-
 import numpy as np
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
@@ -10,6 +8,7 @@ def load_data_from_json(file_path):
         data = json.load(json_file)
     X = []  # Liste pour stocker les données d'entrée (amplitudes)
     y = []  # Liste pour stocker les étiquettes de sortie (fuite ou non)
+    
 
     for entry in data:
         X.append(entry['amplitudes'])
