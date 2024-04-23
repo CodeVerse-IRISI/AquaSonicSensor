@@ -1,38 +1,46 @@
+import time
+import json
 from kafka_producer import run_kafka_producer
 from process_data import process_data
 from config_reader import read_config
 from detect_leak import detect_leak
-import json
 from read_sensor import record_voltages
 
-sensor_id = read_config("config.json", "sensor_id")
+def main():
+    """
+    Main function to run the sensor data processing and leak detection.
+    """
+    # Read sensor ID from config
+    sensor_id = read_config("config.json", "sensor_id")
 
-voltages_generator = record_voltages(max_voltage_count=200)
+    # Generator for reading voltages
+    voltages_generator = record_voltages(max_voltage_count=200)
 
+    for voltages in voltages_generator:
+        print("Voltages recorded:", voltages)
 
-for voltages in voltages_generator:
-    print("Tableau de tensions enregistrer :", voltages)
-     
-    sensor_data= voltages
+        # Process sensor data
+        sensor_json = process_data(sensor_id, voltages)
 
-    # Process sensor data and print JSON string
-    sensor_json=process_data(sensor_id, sensor_data)
+        # Load JSON into dictionary
+        sensor_dict = json.loads(sensor_json)
 
-    # Charger le JSON dans un dictionnaire
-    sensor_dict = json.loads(sensor_json)
+        # Detect leak
+        prediction = detect_leak(sensor_dict)
 
-    prediction = detect_leak(sensor_dict)
+        if prediction:
+            print("Leak detected")
+            sensor_dict["leak"] = 1
+        else:
+            print("No leak")
 
-    if prediction :
-      print("fuite detected")
-      sensor_dict["leak"] = 1
-      # Convertir le dictionnaire mis à jour en JSON
-      updated_sensor_json = json.dumps(sensor_dict)
-      
-      # Envoyer les données mises à jour à Kafka
-      run_kafka_producer(updated_sensor_json)
-      
-    else:
-      print("pas de fuite")
+        # Convert updated dictionary back to JSON
+        updated_sensor_json = json.dumps(sensor_dict)
 
-    time.sleep(300)  # Attendre 5 minutes entre chaque iteration
+        # Send updated data to Kafka
+        run_kafka_producer(updated_sensor_json)
+
+        time.sleep(300)  # Wait for 5 minutes between each iteration
+
+if __name__ == "__main__":
+    main()
