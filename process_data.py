@@ -1,3 +1,5 @@
+
+
 import json
 from datetime import datetime
 from config_reader import read_config
@@ -26,3 +28,18 @@ def process_data(sensor_id, sensor_data):
     json_string = json.dumps(json_data, indent=4)
 
     return json_string
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
