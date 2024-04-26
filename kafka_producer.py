@@ -10,7 +10,7 @@ def read_config():
         dict: Configuration parameters.
     """
     config = {}
-    with open("client.properties") as fh:
+    with open("client.properties", encoding="utf-8") as fh:
         for line in fh:
             line = line.strip()
             if line and not line.startswith("#"):
