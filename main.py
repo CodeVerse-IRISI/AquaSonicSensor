@@ -1,12 +1,46 @@
+import time
+import json
+from kafka_producer import run_kafka_producer
 from process_data import process_data
 from config_reader import read_config
-from kafka_producer import run_kafka_producer
+from detect_leak import detect_leak
+from read_sensor import record_voltages
 
+def main():
+    """
+    Main function to run the sensor data processing and leak detection.
+    """
+    # Read sensor ID from config
+    sensor_id = read_config("config.json", "sensor_id")
 
+    # Generator for reading voltages
+    voltages_generator = record_voltages(max_voltage_count=200)
 
-sensor_id = read_config("config.json", "sensor_id")
-sensor_data = [14.237159601315167, 6.043710324048862, 11.363463883316214, 16.817667059791205, 35.234607438034956, 28.157296510568482, 43.84036643882784, 47.462287073577905, 46.04089445929666, 57.86667026058369, 48.12783373666274, 60.15702479590209, 57.60059842590437, 51.525784043075745, 66.81800831163848, 62.277423546120694, 66.95300432175522, 51.753851537884316, 58.14227898992288, 56.15485220902487, 47.71533304927895, 50.96327370123103, 48.05325670301377, 39.518514335966614, 47.42344089495822, 44.90407694097587, 29.831999878152462, 25.526253547839737, 17.612904628718795, 24.174683450249326, 17.52627260138112, -2.60264696265993, 7.2749180347113125, -4.0691513098543535, -5.412333723893234, -20.247870003346215, -19.307866913186544, -17.075976734912135, -30.246844658472742, -23.531190557978796, -23.357100861733016, -27.488957721845466, -41.49562870726097, -46.81723613431596, -32.446325666445155, -35.605021361915725, -49.667594922164284, -48.52569480702661, -35.622888030774625, -27.41851496428527, -40.46269320156532, -28.68034220244485, -34.22090037284716, -25.631688091012027, -9.597235640378738, -11.48064540723782, -11.363652996648295, -12.86685063203536, -3.6865284084535723, 4.575378248372442, 0.8836979062262762, 12.253524038207734, 16.732775231155816, 17.870420230396306, 27.414881237792997, 34.68993313860595, 35.939025393148704, 37.01726038084032, 55.03921446058868, 46.596781758974835, 63.037299253489294, 49.899703694338996, 63.43564344785367, 53.8001457907121, 64.02342603162928, 55.22262287015646, 55.627522948602966, 65.0993545696907, 63.581045791041014, 57.32824157746897, 53.]
+    for voltages in voltages_generator:
+        print("Voltages recorded:", voltages)
 
-# Process sensor data and print JSON string
-sensor_json=process_data(sensor_id, sensor_data)
-run_kafka_producer(sensor_json)
+        # Process sensor data
+        sensor_json = process_data(sensor_id, voltages)
+
+        # Load JSON into dictionary
+        sensor_dict = json.loads(sensor_json)
+
+        # Detect leak
+        prediction = detect_leak(sensor_dict)
+
+        if prediction:
+            print("Leak detected")
+            sensor_dict["leak"] = 1
+        else:
+            print("No leak")
+
+        # Convert updated dictionary back to JSON
+        updated_sensor_json = json.dumps(sensor_dict)
+
+        # Send updated data to Kafka
+        run_kafka_producer(updated_sensor_json)
+
+        time.sleep(300)  # Wait for 5 minutes between each iteration
+
+if __name__ == "__main__":
+    main()
