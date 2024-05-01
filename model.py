@@ -1,7 +1,3 @@
-
-
-#pip install tensorflow
-
 import numpy as np
 import tensorflow as tf
 import json
@@ -14,6 +10,7 @@ def load_data_from_json(file_path, max_length=None):
     
     X = []  # Liste pour stocker les données d'entrée (amplitudes)
     y = []  # Liste pour stocker les étiquettes de sortie (fuite ou non)
+    
 
     for entry in data:
         amplitudes = entry['amplitudes']
