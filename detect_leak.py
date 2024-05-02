@@ -1,3 +1,6 @@
+pip install numpy
+pip install tensorflow
+
 import numpy as np
 import tensorflow as tf
 import time
