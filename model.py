@@ -1,6 +1,3 @@
-#pip install numpy
-#pip install tensorflow
-#pip install sklearn.model_selection
 import json
 import numpy as np
 import tensorflow as tf
@@ -28,13 +25,14 @@ def load_data_from_json(file_path, max_length=None):
 # Spécifier le chemin du fichier JSON contenant les données
 JSON_FILE_PATH = 'dataSet.json'
 
-# Charger les données à partir du fichier JSON avec padding/truncation à 
-# une longueur maximale de 200 (par exemple)
+# Charger les données à partir du fichier JSON avec padding/truncation 
+# à une longueur maximale de 200 (par exemple)
 x, y = load_data_from_json(JSON_FILE_PATH, max_length=200)
 
 # Afficher les données chargées
 print(x)
 print(y)
+
 # Diviser les données en ensembles d'entraînement et de test
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
 
@@ -59,7 +57,3 @@ model.save("model.h5")
 loss, accuracy = model.evaluate(x_test, y_test)
 print("Loss :", loss)
 print("Accuracy :", accuracy)
-
-
-
-
