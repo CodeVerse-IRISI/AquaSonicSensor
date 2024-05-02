@@ -1,33 +1,50 @@
-
-
 import numpy as np
 import tensorflow as tf
 import time
 
-# Fonction pour la détection de fuite
 def detect_leak(data):
-    # Charger le modèle entraîné
-    model = tf.keras.models.load_model("model.h5")
-    # Charger les données du JSON
+    """
+    Detects leak based on the provided data.
+
+    Args:
+    - data (dict): Dictionary containing sensor data.
+
+    Returns:
+    - bool: True if leak is detected, False otherwise.
+    """
+    # Load the trained model
+    try:
+        model = tf.keras.models.load_model("model.h5")
+    except FileNotFoundError:
+        print("Model file 'model.h5' not found.")
+        return False
+    except Exception as e:
+        print("Error loading model:", e)
+        return False
+    
+    # Check if data is provided
+    if "amplitudes" not in data:
+        print("Sensor data not provided.")
+        return False
+    
+    # Reshape data for prediction
     X = np.array(data["amplitudes"]).reshape(1, len(data["amplitudes"]), 1)
     
-    # Temps de début de la prédiction
-    start_time = time.time()
-
-    # Prédire la probabilité de fuite
-    leak_probability = model.predict(X)[0][0]
+    # Predict leak probability
+    try:
+        start_time = time.time()
+        leak_probability = model.predict(X)[0][0]
+        end_time = time.time()
+    except Exception as e:
+        print("Error predicting:", e)
+        return False
     
-    # Temps de fin de la prédiction
-    end_time = time.time()
-
-    # Calcul du temps écoulé
+    # Calculate prediction time
     prediction_time = end_time - start_time
-    print("Temps de prédiction:", prediction_time, "secondes")
+    print("Prediction time:", prediction_time, "seconds")
 
-    # Seuil pour la détection de fuite 
+    # Threshold for leak detection
     leak_threshold = 0.5
     
-    # Si la probabilité de fuite est supérieure au seuil, retourner True, sinon False
+    # Return True if leak probability is above threshold, False otherwise
     return leak_probability > leak_threshold
-
-
