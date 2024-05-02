@@ -59,4 +59,4 @@ model.save("model.h5")
 # Évaluer le modèle sur l'ensemble de test
 loss, accuracy = model.evaluate(x_test, y_test)
 print("Loss :", loss)
-print("Accuracy :", accuracy)
+print("Accuracy :",accuracy)
