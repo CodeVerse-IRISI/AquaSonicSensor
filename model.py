@@ -38,7 +38,7 @@ print(y)
 # Diviser les données en ensembles d'entraînement et de test
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
 
-# Définir le modèle CNN
+# Définir le modèle DNN
 model = tf.keras.Sequential([
     tf.keras.layers.Conv1D(filters=32, kernel_size=3, activation='relu', input_shape=(len(x[0]), 1)),
     tf.keras.layers.MaxPooling1D(pool_size=2),
