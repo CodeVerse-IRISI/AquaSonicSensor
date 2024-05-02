@@ -4,14 +4,15 @@ pip install tensorflow
 import time
 import numpy as np
 import tensorflow as tf
-   """
+  
+def detect_leak(data):
+    """
     Detects leak based on the provided data.
     Args:
     - data (dict): Dictionary containing sensor data.
     Returns:
     - bool: True if leak is detected, False otherwise.
     """
-def detect_leak(data):
     # Load the trained model
     try:
         model = tf.keras.models.load_model("model.h5")
