@@ -1,19 +1,17 @@
 pip install numpy
 pip install tensorflow
 
+import time
 import numpy as np
 import tensorflow as tf
-import time
-
-def detect_leak(data):
-    """
+   """
     Detects leak based on the provided data.
     Args:
     - data (dict): Dictionary containing sensor data.
     Returns:
     - bool: True if leak is detected, False otherwise.
     """
-    
+def detect_leak(data):
     # Load the trained model
     try:
         model = tf.keras.models.load_model("model.h5")
@@ -30,12 +28,12 @@ def detect_leak(data):
         return False
     
     # Reshape data for prediction
-    X = np.array(data["amplitudes"]).reshape(1, len(data["amplitudes"]), 1)
+    x = np.array(data["amplitudes"]).reshape(1, len(data["amplitudes"]), 1)
     
     # Predict leak probability
     try:
         start_time = time.time()
-        leak_probability = model.predict(X)[0][0]
+        leak_probability = model.predict(x)[0][0]
         end_time = time.time()
     except Exception as e:
         print("Error predicting:", e)
