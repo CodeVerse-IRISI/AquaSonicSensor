@@ -23,7 +23,7 @@ def load_data_from_json(file_path, max_length=None):
                 amplitudes = amplitudes[:max_length]
         x.append(amplitudes)
         y.append(entry['leak'])
-  return np.array(x), np.array(y)
+    return np.array(x), np.array(y)
 
 # Spécifier le chemin du fichier JSON contenant les données
 JSON_FILE_PATH = 'dataSet.json'
