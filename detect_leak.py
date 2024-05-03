@@ -2,11 +2,12 @@ import time
 import numpy as np
 import tensorflow as tf
 
-"""
-Module detect_leak
-This module contains functions for detecting leaks based on sensor data using
-a trained machine learning model.
-"""
+    """
+    Module detect_leak
+    
+    This module contains functions for detecting leaks based on sensor data using
+    a trained machine learning model.
+    """
 def detect_leak(data):
     """
     Detects a leak based on the provided sensor data.
@@ -22,7 +23,6 @@ def detect_leak(data):
     except FileNotFoundError:
         print("Fichier du modèle 'model.h5' non trouvé.")
         return False
-        
     if "amplitudes" not in data:
         print("Données de capteur non fournies.")
         return False
