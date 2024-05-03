@@ -1,6 +1,3 @@
-pip install tensorflow
-pip install numpy
-pip install sklearn.model_selection
 import json
 import numpy as np
 import tensorflow as tf
