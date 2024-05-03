@@ -1,12 +1,14 @@
 import time
 import numpy as np
 import tensorflow as tf
+
 """
 Module detect_leak
     
 This module contains functions for detecting leaks based on sensor data using
 a trained machine learning model.
 """
+
 def detect_leak(data):
     """
     Detects a leak based on the provided sensor data.
@@ -26,13 +28,9 @@ def detect_leak(data):
         print("Données de capteur non fournies.")
         return False
     x = np.array(data["amplitudes"]).reshape(1, len(data["amplitudes"]), 1)
-    try:
-        start_time = time.time()
-        leak_probability = model.predict(x)[0][0]
-        end_time = time.time()
-    except Exception as e:
-        print("Erreur lors de la prédiction:", e)
-        return False
+    start_time = time.time()
+    leak_probability = model.predict(x)[0][0]
+    end_time = time.time()
     prediction_time = end_time - start_time
     print("Temps de prédiction:", prediction_time, "secondes")
     leak_threshold = 0.5
