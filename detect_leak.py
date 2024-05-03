@@ -23,7 +23,7 @@ def detect_leak(data):
         return False
         
     # Check if data is provided
-        if "amplitudes" not in data:
+    if "amplitudes" not in data:
         print("Sensor data not provided.")
         return False
     # Reshape data for prediction
