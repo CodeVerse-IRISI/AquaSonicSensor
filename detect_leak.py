@@ -20,13 +20,11 @@ def detect_leak(data):
     except Exception as e:
         print("Erreur lors du chargement du modèle:", e)
         return False
-    
     if "amplitudes" not in data:
         print("Données de capteur non fournies.")
         return False
     
     x = np.array(data["amplitudes"]).reshape(1, -1, 1)
-    
     try:
         start_time = time.time()
         leak_probability = model.predict(x)[0][0]
@@ -39,5 +37,4 @@ def detect_leak(data):
     print("Temps de prédiction:", prediction_time, "secondes")
     
     leak_threshold = 0.5
-  
     return leak_probability > leak_threshold
