@@ -5,6 +5,19 @@ from sklearn.model_selection import train_test_split
 
 # Charger les données depuis le fichier JSON
 def load_data_from_json(file_path, max_length=None):
+     """
+    Charge les données à partir d'un fichier JSON.
+
+    Args:
+        file_path (str): Chemin du fichier JSON contenant les données.
+        max_length (int, optional): Longueur maximale des données à charger. 
+            Si spécifié, les données seront rembourrées ou tronquées à cette longueur.
+
+    Returns:
+        tuple: Un tuple contenant deux tableaux numpy, x_data et y_data.
+            - x_data: Tableau numpy des données d'entrée (amplitudes).
+            - y_data: Tableau numpy des étiquettes de sortie (fuite ou non).
+    """
     with open(file_path, "r") as json_file:
         data = json.load(json_file)
     x_data = []  # Liste pour stocker les données d'entrée (amplitudes)
