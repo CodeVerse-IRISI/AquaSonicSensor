@@ -5,6 +5,7 @@ from process_data import process_data
 from config_reader import read_config
 from detect_leak import detect_leak
 from read_sensor import record_voltages
+import time  
 
 def main():
     """
