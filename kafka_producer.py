@@ -51,7 +51,7 @@ def run_kafka_producer(sensor_json):
     sensor_data = json.loads(sensor_json)
     config = read_config()
     topic = "sounds"
-    key = sensor_data["sensor_id"]
-    value = {k: v for k, v in sensor_data.items() if k != "sensor_id"}
+    key = "rasbery01"
+    value = sensor_data
 
     produce(topic, config, key, value)
