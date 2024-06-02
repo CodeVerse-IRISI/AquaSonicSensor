@@ -1,5 +1,10 @@
+"""
+Module to produce messages to a Kafka topic.
+"""
+
 import json
-from confluent_kafka import Producer
+from confluent_kafka import Producer  # pylint: disable=import-error
+
 
 def read_config():
     """
@@ -17,6 +22,7 @@ def read_config():
                 parameter, value = line.split('=', 1)
                 config[parameter] = value.strip()
     return config
+
 
 def produce(topic, config, key, value):
     """
@@ -40,6 +46,7 @@ def produce(topic, config, key, value):
 
     # Send any outstanding or buffered messages to the Kafka broker
     producer.flush()
+
 
 def run_kafka_producer(sensor_json):
     """

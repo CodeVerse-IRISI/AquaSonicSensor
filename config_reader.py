@@ -1,4 +1,9 @@
+"""
+Module to read configuration from a JSON file.
+"""
+
 import json
+
 
 def read_config(config_file, prop_name):
     """

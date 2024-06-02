@@ -34,11 +34,11 @@ def record_voltages(max_voltage_count: int = 200,
         for _ in range(num_iterations):
             print("Début d'enregistrement...")
             voltages_list = []
-            
+
             while len(voltages_list) < max_voltage_count:
                 voltage = chan.voltage
                 voltages_list.append(voltage)
-            
+
             yield voltages_list
             print("Attente de 60 secondes avant la prochaine série d'enregistrements...")
             time.sleep(60)
