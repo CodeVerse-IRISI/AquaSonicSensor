@@ -1,5 +1,3 @@
-#!pip install tensorflow
-
 import numpy as np
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
@@ -8,7 +6,7 @@ from sklearn.model_selection import train_test_split
 def load_data_from_json(file_path):
     with open(file_path, "r") as json_file:
         data = json.load(json_file)
-    X = []  # Liste pour stocker les données d'entrée amplitudes
+    X = []  # Liste pour stocker les données d'entrée (amplitudes)
     y = []  # Liste pour stocker les étiquettes de sortie (fuite ou non)
 
     for entry in data:
@@ -17,12 +15,11 @@ def load_data_from_json(file_path):
 
     return np.array(X), np.array(y)
 
-
 # Spécifier le chemin du fichier JSON contenant les données
-json_file_path = 'C:\\Users\\pc\\Desktop\\documents_conduit\\sensor_data.json'
+json_file_path = 'dataSet.json'
 
-# Charger les données à partir du fichier JSON
-X, y = load_data_from_json(json_file_path)
+# Charger les données à partir du fichier JSON avec padding/truncation à une longueur maximale de 200 (par exemple)
+X, y = load_data_from_json(json_file_path, max_length=200)
 
 # Afficher les données chargées
 print(X)
@@ -46,7 +43,11 @@ model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy']
 # Entraîner le modèle
 model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test))
 
+
+# Sauvegarder le modèle au format .h5
+model.save("model.h5")
+
 # Évaluer le modèle sur l'ensemble de test
 loss, accuracy = model.evaluate(X_test, y_test)
 print("Loss :", loss)
-print("Accuracy :", accuracy)
+print("Accuracy :",accuracy)
