@@ -1,6 +1,11 @@
+"""
+Module to detect leaks based on sensor data.
+"""
+
 import time
 import numpy as np
 import tensorflow as tf
+
 
 def detect_leak(data):
     """
