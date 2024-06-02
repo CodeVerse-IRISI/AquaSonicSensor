@@ -7,6 +7,7 @@ This project showcases end-to-end processing of sensor data, integrating with Ka
 1. Clone this repository to your local machine: `git clone https://github.com/CodeVerse-IRISI/AquaSonicSensor.git`
 2. Install dependencies:`pip install -r requirements.txt`.
 3. Configure Kafka settings in the code to match your environment.
+4. lanch the main method
 
 ## Usage
 - Customize `read_sensor.py` for your sensor setup and data format.
