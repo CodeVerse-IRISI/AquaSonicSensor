@@ -30,7 +30,7 @@ def record_voltages(max_voltage_count: int = 200,
         ads = ADS.ADS1115(i2c)
         ads.gain = 2/3
         chan = AnalogIn(ads, ADS.P0)
-        
+
         for _ in range(num_iterations):
             print("Début d'enregistrement...")
             voltages_list = []
