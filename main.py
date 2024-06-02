@@ -1,3 +1,7 @@
+"""
+Main module to run the sensor data processing and leak detection.
+"""
+
 import time
 import json
 from kafka_producer import run_kafka_producer
@@ -29,18 +33,17 @@ def main():
         prediction = detect_leak(sensor_dict)
 
         if prediction:
-            print("Leak detected")
+            print("Fuite detected")
             sensor_dict["leak"] = 1
+            # Convertir le dictionnaire mis à jour en JSON
+            updated_sensor_json = json.dumps(sensor_dict)
+            print("Envoi au Kafka")
+            # Envoyer les données mises à jour à Kafka
+            run_kafka_producer(updated_sensor_json)
         else:
             print("No leak")
 
-        # Convert updated dictionary back to JSON
-        updated_sensor_json = json.dumps(sensor_dict)
-
-        # Send updated data to Kafka
-        run_kafka_producer(updated_sensor_json)
-
-        time.sleep(300)  # Wait for 5 minutes between each iteration
+        time.sleep(3)  # Wait for 3 seconds between each iteration
 
 if __name__ == "__main__":
     main()
