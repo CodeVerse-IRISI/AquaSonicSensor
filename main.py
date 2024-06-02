@@ -1,3 +1,8 @@
+
+"""
+Main module to run the sensor data processing and leak detection.
+"""
+
 import time
 import json
 from kafka_producer import run_kafka_producer
@@ -5,6 +10,7 @@ from process_data import process_data
 from config_reader import read_config
 from detect_leak import detect_leak
 from read_sensor import record_voltages
+
 
 def main():
     """
@@ -29,12 +35,12 @@ def main():
         prediction = detect_leak(sensor_dict)
 
         if prediction:
-            print("fuite detected")
+            print("Fuite detected")
             sensor_dict["leak"] = 1
-            # Convertir le dictionnaire mis Ã  jour en JSON
+            # Convertir le dictionnaire mis à jour en JSON
             updated_sensor_json = json.dumps(sensor_dict)
-            print("envoie au kafka")
-            # Envoyer les donnÃ©es mises Ã  jour Ã  Kafka
+            print("Envoi au Kafka")
+            # Envoyer les données mises à jour à Kafka
             run_kafka_producer(updated_sensor_json)
         else:
             print("No leak")

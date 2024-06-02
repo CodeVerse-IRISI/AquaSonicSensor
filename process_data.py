@@ -1,6 +1,10 @@
+"""
+Module to process sensor data and convert it to JSON.
+"""
+
 import json
 from datetime import datetime
-from config_reader import read_config
+
 
 def process_data(sensor_id, sensor_data):
     """

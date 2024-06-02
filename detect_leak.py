@@ -1,6 +1,11 @@
+"""
+Module to detect leaks based on sensor data.
+"""
+
 import time
-import numpy as np
-import tensorflow as tf
+import numpy as np  # pylint: disable=import-error
+import tensorflow as tf  # pylint: disable=import-error
+
 
 def detect_leak(data):
     """
@@ -20,7 +25,7 @@ def detect_leak(data):
     if "amplitudes" not in data:
         print("Données de capteur non fournies.")
         return False
-    x = np.array(data["amplitudes"]).reshape(1, len(data["amplitudes"]), 1)
+    x = np.array(data["amplitudes"]).reshape((1, len(data["amplitudes"]), 1))
     start_time = time.time()
     leak_probability = model.predict(x)[0][0]
     end_time = time.time()
